@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<script src="lib/js/jquery-3.2.1.min.js"></script>
+	<script src="lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+	<link rel="shortcut icon" href="/CrystalOS/favicon.ico"/>
+	<link rel="bookmark" href="/CrystalOS/favicon.ico"/>
+	<style>
+	.HOV:hover{
+		box-shadow:2px 2px 2px #c0c0c0;
+		cursor:pointer;
+	}
+	div:hover{
+		border:1px #c0c0c0 solid;
+		box-shadow:2px 2px 2px #c0c0c0;
+	}
+	ul,li{
+		text-decoration: none;
+	}
+	li{
+		list-style:none;
+		margin-left:10px;
+	}
+	#left li{
+		margin-top:8px;
+	}
+	#right li{
+		margin-top:2.5px;
+	}
+	.form-control{
+		height:28px;
+	}
+	</style>
+</head>
+<!-- 仅简单测试 无前端正则校验 -->
+<body>
+	<div class="col-lg-8 text-center" style="color:red;font-weight:550">console输出结果</div>
+	<div class="col-lg-12">
+		<div class="col-lg-5 pull-left">
+			<div class="col-lg-5 text-center">用户注册</div><br/>
+			<form class="col-lg-5 text-center" id="form1">
+				UserName:<input name="username" type="text" onchange="userNameExist(this)"><br/>
+				PassWord:<input name="password" type="password"><br/>
+				Email:<input name="email" type="email"><br/>
+				<input type="button" class="btn btn-success" onclick="submitForm1()" value="注册">
+			</form>
+		</div>
+		<div class="col-lg-5 pull-left">
+			<div class="pull-left col-lg-5 text-center">用户登陆</div><br/>
+			<form class="col-lg-5 text-center" id="form2">
+				UserName:<input name="username" type="text"><br/>
+				PassWord:<input name="password" type="password"><br/>
+				<input type="button" id="loginBtn" class="btn btn-success" onclick="submitForm2(this)" value="登陆">
+				<input type="button" id="logOutBtn" class="btn btn-danger disabled" onclick="logOut(this)" value="登出">
+			</form>
+		</div>
+		<div class="col-lg-12"></div>
+		<div class="col-lg-5 pull-left">
+			<div class="pull-left col-lg-5 text-center">注册机器</div><br/>
+			<form class="col-lg-5 text-center" id="form3">
+				NickName:<input name="minerNickname" type="text"><br/>
+				PassWord:<input name="password" type="password" placeholder="默认123456" value="123456"><br/>
+				<input type="button" class="btn btn-success" onclick="submitForm3(this)" value="注册">
+			</form>
+		</div>
+		<div class="col-lg-5 pull-left"><input type="button" class="btn btn-info" value="Configuration(测试)" onclick="ConfigOn()"></div>
+		<div class="hidden" style="z-index:1;width:500px;height:300px;background-color:white;border:1px #c0c0c0 solid;position:absolute;top:150px;left:350px;padding-left:20px;">
+			<form id="form4">
+				<div class="col-lg-11 text-center" style="color:blue;font-weight:550;">Config测试</div>
+				<div class="col-lg-1 text-center" style="font-weight:550;" onclick="ConfigOff()"><span class="glyphicon glyphicon-remove btn-danger HOV"></span></div>
+				<ul class="nav pull-left" id="left">
+					<li>configName</li>
+					<li>path</li>
+					<li>pool</li>
+					<li>wallet</li>
+					<li>algo</li>
+					<li>apiPort</li>
+					<!-- <li>otherOptions</li> -->
+				</ul>
+				<ul class="nav pull-left" id="right">
+				<li><input type="text" name="configName" placeholder="configName"></li>
+					<li><input type="text" name="path" placeholder="path"></li>
+					<li>
+						<select name="pool" class="selectpicker form-control">
+							<option value="pool1" selected>pool1</option>
+							<option value="pool2">pool2</option>
+							<option value="pool3">pool3</option>
+							<option value="pool4">pool4</option>
+						</select> 
+					</li>
+					<li>
+						<select name="wallet" class="selectpicker form-control">
+							<option value="wallet1" selected>wallet1</option>
+							<option value="wallet2">wallet2</option>
+						</select> 
+					</li>
+					<!-- <li><input type="checkbox" value="testValue1">testValue1<input type="checkbox" value="testValue2">testValue2</li> -->
+					<!-- <li class="input-group">
+						<input type="text" class="form-control pull-left"style="width:200px;">
+						<select class="selectpicker form-control input-group-addon pull-left" style="width:100px;">
+								<option value="value1" selected>value1</option>
+								<option value="value2">value2</option>
+								<option value="value3">value3</option>
+								<option value="value4">value4</option>
+						</select>
+					</li> -->
+					<li><input name="algo" type="text" placeholder="algo"></li>
+					<li><input name="apiPort" type="text" data-value-type="number" placeholder="8080(Int)"></li>
+					<!-- <li><input name="otherOptions" type="text" placeholder="otherOptions"></li> -->
+					<li><input type="button" class="btn btn-success" value="Save" onclick="ConfigSave()"></li>
+				</ul>
+			</form>
+		</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="col-lg-1 pull-left">
+			<input type="button" onclick="test()" value="test">
+			<input type="button" onclick="loadHTML('/CrystalOS/test/minerInfo.html')" value="minerInfo.html">
+			<input type="button" onclick="loadHTML('/CrystalOS/test/userInfo.html')" value="userInfo.html">
+		</div>
+	</div>
+	<div id="view">
+	</div>
+</body>
+<script src="lib/js/jquery.serializejson.js"></script>
+<script src="lib/js/jquery.cookie.js"></script>
+<script src="test/test.js"></script>
+</html>
